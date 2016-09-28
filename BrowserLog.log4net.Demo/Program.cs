@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+
 using log4net;
 using log4net.Config;
-using log4net.Repository.Hierarchy;
 
 namespace BrowserLog.log4net.Demo
 {

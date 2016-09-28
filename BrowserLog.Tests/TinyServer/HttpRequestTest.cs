@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BrowserLog.TinyServer;
+﻿using System.Linq;
+
 using NFluent;
 using NUnit.Framework;
 

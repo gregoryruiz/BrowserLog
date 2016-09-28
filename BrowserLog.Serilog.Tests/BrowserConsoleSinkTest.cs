@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using BrowserLog.Serilog;
+
 using BrowserLog.TinyServer;
-using Serilog;
+
 using NSubstitute;
 using NUnit.Framework;
 using Serilog.Events;
