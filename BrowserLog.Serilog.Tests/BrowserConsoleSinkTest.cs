@@ -17,17 +17,13 @@ namespace BrowserLog.Serilog.Tests
     public class BrowserConsoleSinkTest
     {
         private IEventChannel _channel;
-        private BrowserConsoleSink _sink;
 
         [SetUp]
         public void ConfigureLogger()
         {
-            var formatter = new MessageTemplateTextFormatter("${date} [${threadid}] ${level} ${logger} ${ndc} - ${message}${newline}", null);
-
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
             channelFactory.Create("localhost", 8765, 1).Returns(_channel);
-            _sink = new BrowserConsoleSink(true, 8765, 1, formatter,false, channelFactory);
         }
 
         [Test]

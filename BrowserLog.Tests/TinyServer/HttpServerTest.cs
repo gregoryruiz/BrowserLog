@@ -20,8 +20,9 @@ namespace BrowserLog.TinyServer
             // given
             var port = FindFreeTcpPort();
             var server = BuildServer(port, "It works");
+            
             // when
-            var task = Task.Run(() => server.Run());
+            server.Run();
             
             // then
             var httpClient = new HttpClient();
@@ -36,8 +37,9 @@ namespace BrowserLog.TinyServer
             // given
             var port = FindFreeTcpPort();
             var server = BuildServer(port, "It works");
+            
             // when
-            var serverTask = Task.Run(() => server.Run());
+            server.Run();
             await Task.Delay(TimeSpan.FromMilliseconds(100));
             server.Dispose();
 
@@ -49,16 +51,16 @@ namespace BrowserLog.TinyServer
         }
 
         [Test]
-        public async void Should_throw_exception_running_a_disposed_server()
+        public void Should_throw_exception_running_a_disposed_server()
         {
             // given
             var port = FindFreeTcpPort();
             var server = BuildServer(port, "It works");
+
             // when
             server.Dispose();
 
             // then
-            var serverTask = Task.Run(() => server.Run());
             Check.ThatCode(server.Run).Throws<InvalidOperationException>();
         }
 
