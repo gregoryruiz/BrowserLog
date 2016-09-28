@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BrowserLog.TinyServer
 {
-    public class HttpServer : IDisposable
+    public sealed class HttpServer : IDisposable
     {
         private readonly int _port ;
         private readonly IPAddress _host;

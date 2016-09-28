@@ -10,7 +10,7 @@ using Serilog.Formatting.Display;
 
 namespace BrowserLog.Serilog
 {
-    public class BrowserConsoleSink : ILogEventSink, IDisposable
+    public sealed class BrowserConsoleSink : ILogEventSink, IDisposable
     {
         private ChannelFactory _channelFactory;
         private IEventChannel _channel;

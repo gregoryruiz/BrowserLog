@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BrowserLog.TinyServer
 {
-    public class HttpResponseChannel : IEventChannel
+    public sealed class HttpResponseChannel : IEventChannel
     {
         private readonly TcpClient _tcpClient;
 

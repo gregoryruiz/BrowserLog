@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BrowserLog.TinyServer
 {
-    public class MulticastChannel : IEventChannel
+    public sealed class MulticastChannel : IEventChannel
     {
         private readonly IList<IEventChannel> _channels = new List<IEventChannel>();
         private readonly object _syncRoot = new object();
