@@ -33,10 +33,10 @@ namespace BrowserLog.log4net.Demo
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("An error has occured, really?", ex);    
+                    logger.Error("An error has occured, really?", ex);
                 }
-                
-                Thread.Sleep(1000);            
+
+                Thread.Sleep(1000);
             }
         }
 
@@ -44,9 +44,11 @@ namespace BrowserLog.log4net.Demo
         {
             try
             {
-                var appender = (BrowserConsoleAppender) logger.Logger.Repository.GetAppenders().First(a =>a.Name == "WEB");
+                var appender =
+                    (BrowserConsoleAppender)logger.Logger.Repository.GetAppenders().First(a => a.Name == "WEB");
                 var url = "http://" + appender.Host + ":" + appender.Port;
-                Console.WriteLine("Opening BrowserLog url '" + url + "'... (Display the debugging console to see them.)");
+                Console.WriteLine(
+                    "Opening BrowserLog url '" + url + "'... (Display the debugging console to see them.)");
                 System.Diagnostics.Process.Start(url);
             }
             catch (Exception)
@@ -60,6 +62,7 @@ namespace BrowserLog.log4net.Demo
             {
                 throw new Exception("A fake exception to show an example");
             }
+
             ThrowExceptionWithStackTrace(--depth);
         }
     }

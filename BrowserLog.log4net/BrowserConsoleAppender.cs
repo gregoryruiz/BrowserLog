@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
+
 using BrowserLog.Common;
 using BrowserLog.TinyServer;
+
 using log4net.Appender;
 using log4net.Core;
 
@@ -10,11 +12,15 @@ namespace BrowserLog
     public class BrowserConsoleAppender : AppenderSkeleton
     {
         private readonly ChannelFactory _channelFactory;
+
         private IEventChannel _channel;
 
         public bool Active { get; set; }
+
         public int Port { get; set; }
+
         public string Host { get; set; }
+
         public int Buffer { get; set; }
 
         public BrowserConsoleAppender()
@@ -39,6 +45,7 @@ namespace BrowserLog
                 {
                     Host = DefaultHostFinder.FindLocalIp();
                 }
+
                 _channel = _channelFactory.Create(Host, Port, Buffer);
             }
         }
@@ -56,6 +63,7 @@ namespace BrowserLog
             {
                 return false;
             }
+
             return base.PreAppendCheck();
         }
 

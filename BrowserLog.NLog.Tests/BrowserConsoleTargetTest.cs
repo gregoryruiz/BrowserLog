@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+
 using BrowserLog.TinyServer;
+
 using NLog;
 using NLog.Config;
 using NLog.Layouts;
+
 using NSubstitute;
+
 using NUnit.Framework;
 
 namespace BrowserLog.NLog.Tests
@@ -13,6 +17,7 @@ namespace BrowserLog.NLog.Tests
     public class BrowserConsoleTargetTest
     {
         private IEventChannel _channel;
+
         private BrowserConsoleTarget _target;
 
         [SetUp]
@@ -38,8 +43,10 @@ namespace BrowserLog.NLog.Tests
         {
             // given
             ApplyTargetConfiguration();
+
             // when
             LogManager.GetLogger(_target.Name, GetType()).Info("Everything's fine with NLog");
+
             // then
             _channel.DidNotReceive().Send(Arg.Any<ServerSentEvent>(), Arg.Any<CancellationToken>());
         }
@@ -50,10 +57,15 @@ namespace BrowserLog.NLog.Tests
             // given
             _target.Active = true;
             ApplyTargetConfiguration();
+
             // when
             LogManager.GetLogger(_target.Name, GetType()).Info("Everything's fine with NLog");
+
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine with NLog")), Arg.Any<CancellationToken>());
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine with NLog")),
+                    Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -62,22 +74,31 @@ namespace BrowserLog.NLog.Tests
             // given
             _target.Active = true;
             ApplyTargetConfiguration();
+
             // when
             LogManager.GetLogger(_target.Name, GetType()).Warn("level?");
+
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")), Arg.Any<CancellationToken>());
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")),
+                    Arg.Any<CancellationToken>());
         }
 
         [Test]
-        public void Should_send_an_sse_message_without_type_when_received_logging_event_level_has_no_matching_level_on_browser()
+        public void
+            Should_send_an_sse_message_without_type_when_received_logging_event_level_has_no_matching_level_on_browser()
         {
             // given
             _target.Active = true;
             ApplyTargetConfiguration();
+
             // when
             LogManager.GetLogger(_target.Name, GetType()).Fatal("No fatal logs on the browser");
+
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("data:")), Arg.Any<CancellationToken>());
+            _channel.Received()
+                .Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("data:")), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -86,17 +107,21 @@ namespace BrowserLog.NLog.Tests
             // given
             _target.Active = true;
             ApplyTargetConfiguration();
+
             // when
             LogManager.GetLogger(_target.Name, GetType()).Warn(new Exception(), "An error has occured");
+
             // then
-            var lineSeparator = new string[] { "\r\n" };
-            _channel.Received().Send(
-                Arg.Is<ServerSentEvent>(
-                    evt => evt.ToString()
-                        .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
-                        .Skip(1)
-                        .All(l => l.StartsWith("data:"))
-                    ), Arg.Any<CancellationToken>());
+            var lineSeparator = new[] { "\r\n" };
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(
+                        evt =>
+                        evt.ToString()
+                            .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
+                            .Skip(1)
+                            .All(l => l.StartsWith("data:"))),
+                    Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -105,8 +130,10 @@ namespace BrowserLog.NLog.Tests
             // given
             _target.Active = true;
             ApplyTargetConfiguration();
+
             // when
             LogManager.Shutdown();
+
             // then
             _channel.Received().Dispose();
         }

@@ -31,7 +31,6 @@ namespace BrowserLog.TinyServer
         {
             _tcpClient.GetStream().Close();
             _tcpClient.Close();
-
         }
 
         public void Dispose()

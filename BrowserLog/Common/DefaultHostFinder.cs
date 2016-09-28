@@ -7,7 +7,6 @@ namespace BrowserLog.Common
     {
         // hack described here
         // http://stackoverflow.com/a/27376368
-        //
         public static string FindLocalIp()
         {
             string localIP;
@@ -17,6 +16,7 @@ namespace BrowserLog.Common
                 var endPoint = socket.LocalEndPoint as IPEndPoint;
                 localIP = endPoint.Address.ToString();
             }
+
             return localIP;
         }
     }

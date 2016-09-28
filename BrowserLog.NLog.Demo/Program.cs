@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+
 using NLog;
+
 using NLogConfig = NLog.Config;
 
 namespace BrowserLog.NLog.Demo
@@ -42,9 +44,12 @@ namespace BrowserLog.NLog.Demo
         {
             try
             {
-                var target = ((BrowserLog.NLog.BrowserConsoleTarget) logger.Factory.Configuration.AllTargets.First(t => t.Name == "BrowserTarget"));
+                var target =
+                    (BrowserLog.NLog.BrowserConsoleTarget)
+                     logger.Factory.Configuration.AllTargets.First(t => t.Name == "BrowserTarget");
                 var url = "http://" + target.Host + ":" + target.Port;
-                Console.WriteLine("Opening BrowserLog url '" + url + "'... (Display the debugging console to see them.)");
+                Console.WriteLine(
+                    "Opening BrowserLog url '" + url + "'... (Display the debugging console to see them.)");
                 System.Diagnostics.Process.Start(url);
             }
             catch (Exception)
@@ -58,6 +63,7 @@ namespace BrowserLog.NLog.Demo
             {
                 throw new Exception("A fake exception to show an example");
             }
+
             ThrowExceptionWithStackTrace(--depth);
         }
     }

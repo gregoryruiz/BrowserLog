@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Configuration;
 using System.Threading;
+
 using BrowserLog.Common;
+
 using Serilog;
 
 namespace BrowserLog.Serilog.Demo
@@ -10,7 +12,6 @@ namespace BrowserLog.Serilog.Demo
     {
         static void Main(string[] args)
         {
-
             //Configuration by AppSettings
             var logger = new LoggerConfiguration()
                 .ReadFrom.AppSettings()
@@ -74,6 +75,7 @@ namespace BrowserLog.Serilog.Demo
             {
                 throw new Exception("A fake exception to show an example");
             }
+
             ThrowExceptionWithStackTrace(--depth);
         }
     }

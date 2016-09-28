@@ -6,9 +6,10 @@ namespace BrowserLog.TinyServer
 {
     public class ServerSentEvent
     {
-        
-        private readonly static string[] LogLevels = {"DEBUG", "INFO", "WARN", "ERROR"};
+        private readonly static string[] LogLevels = { "DEBUG", "INFO", "WARN", "ERROR" };
+
         private readonly string _type;
+
         private readonly string _data;
 
         public ServerSentEvent(string type, string data)
@@ -19,16 +20,18 @@ namespace BrowserLog.TinyServer
 
         public override string ToString()
         {
-            var lines = _data.Split(new string[] {"\r\n"}, StringSplitOptions.None);
+            var lines = _data.Split(new[] { "\r\n" }, StringSplitOptions.None);
             var builder = new StringBuilder();
             if (LogLevels.Contains(_type))
             {
                 builder.Append("event: " + _type + "\r\n");
             }
+
             foreach (var line in lines)
             {
                 builder.Append("data: " + line + "\r\n");
             }
+
             builder.Append("\r\n");
             return builder.ToString();
         }

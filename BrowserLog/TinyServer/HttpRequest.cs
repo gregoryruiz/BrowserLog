@@ -6,7 +6,9 @@ namespace BrowserLog.TinyServer
     public class HttpRequest
     {
         private readonly string _uri;
+
         private readonly string _method;
+
         private readonly IDictionary<string, string> _headers;
 
         public HttpRequest(string uri, string method, IDictionary<string, string> headers)
@@ -18,17 +20,26 @@ namespace BrowserLog.TinyServer
 
         public string Uri
         {
-            get { return _uri; }
+            get
+            {
+                return _uri;
+            }
         }
 
         public string Method
         {
-            get { return _method; }
+            get
+            {
+                return _method;
+            }
         }
 
         public IDictionary<string, string> Headers
         {
-            get { return _headers; }
+            get
+            {
+                return _headers;
+            }
         }
 
         public static HttpRequest Parse(IEnumerable<string> lines)

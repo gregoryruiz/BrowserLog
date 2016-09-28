@@ -1,4 +1,5 @@
 ﻿using NFluent;
+
 using NUnit.Framework;
 
 namespace BrowserLog.TinyServer
@@ -10,8 +11,10 @@ namespace BrowserLog.TinyServer
         {
             // given
             var response = new HttpResponse(404, "NOT FOUND");
+
             // when
             var textResponse = response.ToString();
+
             // then
             Check.That(textResponse).StartsWith("HTTP/1.1 404");
         }
@@ -22,11 +25,12 @@ namespace BrowserLog.TinyServer
             // given
             var response = new HttpResponse(404, "NOT FOUND");
             response.AddHeader("DummyHeader", "DummyValue");
+
             // when
             var textResponse = response.ToString();
+
             // then
             Check.That(textResponse).Contains("DummyHeader: DummyValue");
         }
-
     }
 }

@@ -8,11 +8,16 @@ namespace BrowserLog.TinyServer
 {
     public sealed class HttpServer : IDisposable
     {
-        private readonly int _port ;
+        private readonly int _port;
+
         private readonly IPAddress _host;
+
         private readonly Action<HttpContext> _handler;
+
         private volatile bool _running;
+
         private volatile bool _disposed;
+
         private TcpListener _server;
 
         public HttpServer(string ip, int port, Action<HttpContext> handler)
@@ -28,6 +33,7 @@ namespace BrowserLog.TinyServer
             {
                 throw new InvalidOperationException("Cannot run disposed server");
             }
+
             _server = new TcpListener(_host, _port);
 
             // Start listening for client requests.
@@ -58,7 +64,7 @@ namespace BrowserLog.TinyServer
             _running = false;
             if (_server != null)
             {
-                _server.Stop();    
+                _server.Stop();
             }
         }
     }

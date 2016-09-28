@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Events;
@@ -8,7 +9,9 @@ namespace BrowserLog.Serilog
 {
     public static class BrowserConsoleLoggerConfigurationExtensions
     {
-        public const string DefaultOutputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}";
+        public const string DefaultOutputTemplate =
+            "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}";
+
         /// <summary>
         /// Use Server Side Event to broadcast logs to a debugging browser console.
         /// </summary>
@@ -33,7 +36,9 @@ namespace BrowserLog.Serilog
             bool logProperties = false)
         {
             var formatter = new MessageTemplateTextFormatter(outputTemplate, formatProvider);
-            return sinkConfiguration.Sink(new BrowserConsoleSink(active, port, buffer, formatter, logProperties), restrictedToMinimumLevel);
+            return sinkConfiguration.Sink(
+                new BrowserConsoleSink(active, port, buffer, formatter, logProperties),
+                restrictedToMinimumLevel);
         }
     }
 }

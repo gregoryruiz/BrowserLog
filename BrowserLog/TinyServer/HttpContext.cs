@@ -5,7 +5,9 @@ namespace BrowserLog.TinyServer
     public class HttpContext
     {
         private readonly HttpRequest _httpRequest;
+
         private readonly HttpResponseChannel _responseChannel;
+
         private readonly CancellationToken _token;
 
         public HttpContext(HttpRequest httpRequest, HttpResponseChannel responseChannel, CancellationToken token)
@@ -17,17 +19,26 @@ namespace BrowserLog.TinyServer
 
         public HttpRequest HttpRequest
         {
-            get { return _httpRequest; }
+            get
+            {
+                return _httpRequest;
+            }
         }
 
         public HttpResponseChannel ResponseChannel
         {
-            get { return _responseChannel; }
+            get
+            {
+                return _responseChannel;
+            }
         }
 
         public CancellationToken Token
         {
-            get { return _token; }
+            get
+            {
+                return _token;
+            }
         }
     }
 }

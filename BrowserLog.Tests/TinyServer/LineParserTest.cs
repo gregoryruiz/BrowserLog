@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using NFluent;
+
 using NUnit.Framework;
 
 namespace BrowserLog.TinyServer
@@ -19,8 +20,10 @@ namespace BrowserLog.TinyServer
             byte[] buffer = Encoding.ASCII.GetBytes("first line\n\n");
             var stream = new MemoryStream(buffer);
             var parser = new LineParser();
+
             // when
             var lines = await parser.Parse(stream, CancellationToken.None);
+
             // then 
             Check.That(lines).HasSize(1);
             Check.That(lines.ElementAt(0)).IsEqualTo("first line");
@@ -34,8 +37,10 @@ namespace BrowserLog.TinyServer
             var stream = new MemoryStream(buffer);
 
             var parser = new LineParser();
+
             // when
             var lines = await parser.Parse(stream, CancellationToken.None);
+
             // then 
             Check.That(lines).HasSize(2);
             Check.That(lines.ElementAt(0)).IsEqualTo("first line");
@@ -51,12 +56,14 @@ namespace BrowserLog.TinyServer
             var stream = new MemoryStream(buffer);
 
             var parser = new LineParser();
+
             // when
             var source = new CancellationTokenSource();
             var parsingTask = Task.Run(() => parser.Parse(stream, source.Token));
             await Task.Delay(200);
             source.Cancel();
             await Task.Delay(1000);
+
             // then
             Check.That(parsingTask.Status).IsNotEqualTo(TaskStatus.Running);
         }

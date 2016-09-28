@@ -7,7 +7,9 @@ using System.Threading;
 using BrowserLog.TinyServer;
 
 using NSubstitute;
+
 using NUnit.Framework;
+
 using Serilog.Events;
 using Serilog.Formatting.Display;
 using Serilog.Parsing;
@@ -33,10 +35,18 @@ namespace BrowserLog.Serilog.Tests
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
             channelFactory.Create(Arg.Any<string>(), 8765, 1).Returns(_channel);
-            var messageTemplateTextFormatter = Substitute.For<MessageTemplateTextFormatter>(BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate, null);
+            var messageTemplateTextFormatter =
+                Substitute.For<MessageTemplateTextFormatter>(
+                    BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate,
+                    null);
             var sink = new BrowserConsoleSink(false, 8765, 1, messageTemplateTextFormatter, false, channelFactory);
 
-            var logEvent = new LogEvent(new DateTimeOffset(new DateTime(2010, 10, 12)), LogEventLevel.Information, new Exception("test"), GenerateMessageTemplate("Useless text"), new List<LogEventProperty>());
+            var logEvent = new LogEvent(
+                new DateTimeOffset(new DateTime(2010, 10, 12)),
+                LogEventLevel.Information,
+                new Exception("test"),
+                GenerateMessageTemplate("Useless text"),
+                new List<LogEventProperty>());
 
             // when
             sink.Emit(logEvent);
@@ -52,7 +62,10 @@ namespace BrowserLog.Serilog.Tests
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
             channelFactory.Create(Arg.Any<string>(), 8765, 1).Returns(_channel);
-            var messageTemplateTextFormatter = new MessageTemplateTextFormatter(BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate, null);
+            var messageTemplateTextFormatter =
+                new MessageTemplateTextFormatter(
+                    BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate,
+                    null);
             var sink = new BrowserConsoleSink(true, 8765, 1, messageTemplateTextFormatter, false, channelFactory);
 
             var logEvent = new LogEvent(
@@ -60,15 +73,18 @@ namespace BrowserLog.Serilog.Tests
                 LogEventLevel.Information,
                 null,
                 GenerateMessageTemplate("Everything's fine with Serilog"),
-                new List<LogEventProperty>() { new LogEventProperty("test", new ScalarValue("value"))});
+                new List<LogEventProperty>() { new LogEventProperty("test", new ScalarValue("value")) });
 
             // when
             sink.Emit(logEvent);
 
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine with Serilog")), Arg.Any<CancellationToken>());
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(evt => evt.ToString().Contains("Everything's fine with Serilog")),
+                    Arg.Any<CancellationToken>());
         }
-        
+
         private static MessageTemplate GenerateMessageTemplate(string text)
         {
             return new MessageTemplate(text, new List<MessageTemplateToken>()
@@ -84,7 +100,10 @@ namespace BrowserLog.Serilog.Tests
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
             channelFactory.Create(Arg.Any<string>(), 8765, 1).Returns(_channel);
-            var messageTemplateTextFormatter = new MessageTemplateTextFormatter(BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate, null);
+            var messageTemplateTextFormatter =
+                new MessageTemplateTextFormatter(
+                    BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate,
+                    null);
             var sink = new BrowserConsoleSink(true, 8765, 1, messageTemplateTextFormatter, false, channelFactory);
 
             var logEvent = new LogEvent(
@@ -98,7 +117,10 @@ namespace BrowserLog.Serilog.Tests
             sink.Emit(logEvent);
 
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")), Arg.Any<CancellationToken>());
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: WARN")),
+                    Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -108,7 +130,10 @@ namespace BrowserLog.Serilog.Tests
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
             channelFactory.Create(Arg.Any<string>(), 8765, 1).Returns(_channel);
-            var messageTemplateTextFormatter = new MessageTemplateTextFormatter(BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate, null);
+            var messageTemplateTextFormatter =
+                new MessageTemplateTextFormatter(
+                    BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate,
+                    null);
             var sink = new BrowserConsoleSink(true, 8765, 1, messageTemplateTextFormatter, false, channelFactory);
 
             var logEvent = new LogEvent(
@@ -122,7 +147,10 @@ namespace BrowserLog.Serilog.Tests
             sink.Emit(logEvent);
 
             // then
-            _channel.Received().Send(Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: ERROR")), Arg.Any<CancellationToken>());
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(evt => evt.ToString().StartsWith("event: ERROR")),
+                    Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -132,13 +160,16 @@ namespace BrowserLog.Serilog.Tests
             var channelFactory = Substitute.For<ChannelFactory>();
             _channel = Substitute.For<IEventChannel>();
             channelFactory.Create(Arg.Any<string>(), 8765, 1).Returns(_channel);
-            var messageTemplateTextFormatter = new MessageTemplateTextFormatter(BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate, null);
+            var messageTemplateTextFormatter =
+                new MessageTemplateTextFormatter(
+                    BrowserConsoleLoggerConfigurationExtensions.DefaultOutputTemplate,
+                    null);
             var sink = new BrowserConsoleSink(true, 8765, 1, messageTemplateTextFormatter, false, channelFactory);
 
             var logEvent = new LogEvent(
                 new DateTimeOffset(new DateTime(2010, 10, 12)),
                 LogEventLevel.Fatal,
-                new Exception("Message of the exception"), 
+                new Exception("Message of the exception"),
                 GenerateMessageTemplate("Displaying of an exception"),
                 new List<LogEventProperty>() { new LogEventProperty("test", new ScalarValue("value")) });
 
@@ -146,14 +177,16 @@ namespace BrowserLog.Serilog.Tests
             sink.Emit(logEvent);
 
             // then
-            var lineSeparator = new string[] { "\r\n" };
-            _channel.Received().Send(
-                Arg.Is<ServerSentEvent>(
-                    evt => evt.ToString()
-                        .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
-                        .Skip(1)
-                        .All(l => l.StartsWith("data:"))
-                    ), Arg.Any<CancellationToken>());
+            var lineSeparator = new[] { "\r\n" };
+            _channel.Received()
+                .Send(
+                    Arg.Is<ServerSentEvent>(
+                        evt =>
+                        evt.ToString()
+                            .Split(lineSeparator, StringSplitOptions.RemoveEmptyEntries)
+                            .Skip(1)
+                            .All(l => l.StartsWith("data:"))),
+                    Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -165,7 +198,7 @@ namespace BrowserLog.Serilog.Tests
             channelFactory.Create(Arg.Any<string>(), 8765, 1).Returns(_channel);
             var sink = new BrowserConsoleSink(true, 8765, 1, null, false, channelFactory);
 
-            //When
+            // When
             sink.Dispose();
 
             // then

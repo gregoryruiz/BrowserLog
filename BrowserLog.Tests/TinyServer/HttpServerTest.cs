@@ -4,7 +4,9 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+
 using NFluent;
+
 using NUnit.Framework;
 
 namespace BrowserLog.TinyServer
@@ -17,10 +19,10 @@ namespace BrowserLog.TinyServer
             // given
             var port = FindFreeTcpPort();
             var server = BuildServer(port, "It works");
-            
+
             // when
             server.Run();
-            
+
             // then
             var httpClient = new HttpClient();
             var urlPrefix = "http://localhost:" + port + "/";
@@ -34,7 +36,7 @@ namespace BrowserLog.TinyServer
             // given
             var port = FindFreeTcpPort();
             var server = BuildServer(port, "It works");
-            
+
             // when
             server.Run();
             await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -43,7 +45,7 @@ namespace BrowserLog.TinyServer
             // then
             var httpClient = new HttpClient();
             var urlPrefix = "http://localhost:" + port + "/";
-            
+
             Check.ThatCode(() => httpClient.GetStringAsync(urlPrefix).Wait()).ThrowsAny();
         }
 
@@ -63,15 +65,18 @@ namespace BrowserLog.TinyServer
 
         private static HttpServer BuildServer(int port, string content)
         {
-            return new HttpServer("127.0.0.1", port, ctx =>
-            {
-                var response = new HttpResponse(200, "OK");
-                response.AddHeader("Content-Type", "text/html; charset=utf-8");
-                response.AddHeader("Connection", "close");
-                response.AddHeader("Date", "Sun, 27 Sep 2015 20:19:46 GMT");
-                response.Content = content;
-                ctx.ResponseChannel.Send(response, CancellationToken.None);
-            });
+            return new HttpServer(
+                "127.0.0.1",
+                port,
+                ctx =>
+                    {
+                        var response = new HttpResponse(200, "OK");
+                        response.AddHeader("Content-Type", "text/html; charset=utf-8");
+                        response.AddHeader("Connection", "close");
+                        response.AddHeader("Date", "Sun, 27 Sep 2015 20:19:46 GMT");
+                        response.Content = content;
+                        ctx.ResponseChannel.Send(response, CancellationToken.None);
+                    });
         }
 
         // see http://stackoverflow.com/questions/138043/find-the-next-tcp-port-in-net

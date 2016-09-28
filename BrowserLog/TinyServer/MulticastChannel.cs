@@ -7,9 +7,13 @@ namespace BrowserLog.TinyServer
     public sealed class MulticastChannel : IEventChannel
     {
         private readonly IList<IEventChannel> _channels = new List<IEventChannel>();
+
         private readonly object _syncRoot = new object();
+
         private readonly int _replayBufferSize;
+
         private readonly IList<ServerSentEvent> _replayBuffer;
+
         private HttpServer _httpServer;
 
         public MulticastChannel(int replayBufferSize = 1)
@@ -46,6 +50,7 @@ namespace BrowserLog.TinyServer
                         closeChannels.Add(channel);
                     }
                 }
+
                 foreach (var channel in closeChannels)
                 {
                     _channels.Remove(channel);
@@ -55,6 +60,7 @@ namespace BrowserLog.TinyServer
                 {
                     _replayBuffer.RemoveAt(0);
                 }
+
                 _replayBuffer.Add(message);
             }
         }
@@ -68,8 +74,9 @@ namespace BrowserLog.TinyServer
         {
             if (_httpServer != null)
             {
-                _httpServer.Dispose();   
+                _httpServer.Dispose();
             }
+
             foreach (var channel in _channels)
             {
                 channel.Dispose();

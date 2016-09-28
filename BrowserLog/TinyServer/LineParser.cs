@@ -8,7 +8,6 @@ namespace BrowserLog.TinyServer
 {
     public class LineParser
     {
-
         public async Task<IEnumerable<string>> Parse(Stream input, CancellationToken cancellationToken)
         {
             byte[] buffer = new byte[0x1000];
@@ -46,6 +45,7 @@ namespace BrowserLog.TinyServer
                     }
                 }
             }
+
             return result;
         }
     }

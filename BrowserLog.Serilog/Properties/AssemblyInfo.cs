@@ -17,6 +17,4 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("f766f2f5-075c-432f-b195-0bf240826c9e")]
-
 [assembly: InternalsVisibleTo("BrowserLog.Serilog.Tests")]
-

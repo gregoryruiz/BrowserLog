@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using NFluent;
+
 using NUnit.Framework;
 
 namespace BrowserLog.TinyServer
@@ -11,13 +12,11 @@ namespace BrowserLog.TinyServer
         public void Should_parse_request()
         {
             // given
-            var rawRequest = new string[]
-            {
-                "GET / HTTP/1.1",
-                "Host: localhost:8080"
-            };
+            var rawRequest = new[] { "GET / HTTP/1.1", "Host: localhost:8080" };
+
             // when
             var httpRequest = HttpRequest.Parse(rawRequest.ToList());
+
             // then
             Check.That(httpRequest).IsNotNull();
             Check.That(httpRequest.Method).IsEqualTo("GET");

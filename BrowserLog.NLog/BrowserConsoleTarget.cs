@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
+
 using BrowserLog.Common;
 using BrowserLog.TinyServer;
+
 using NLog;
 using NLog.Targets;
 
@@ -11,11 +13,15 @@ namespace BrowserLog.NLog
     public class BrowserConsoleTarget : TargetWithLayout
     {
         private readonly ChannelFactory _channelFactory;
+
         private IEventChannel _channel;
 
         public bool Active { get; set; }
+
         public int Port { get; set; }
+
         public string Host { get; set; }
+
         public int Buffer { get; set; }
 
         public BrowserConsoleTarget()
@@ -43,6 +49,7 @@ namespace BrowserLog.NLog
                 {
                     Host = DefaultHostFinder.FindLocalIp();
                 }
+
                 _channel = _channelFactory.Create(Host, Port, Buffer);
             }
         }
@@ -63,6 +70,7 @@ namespace BrowserLog.NLog
             {
                 _channel.Dispose();
             }
+
             base.CloseTarget();
         }
     }
